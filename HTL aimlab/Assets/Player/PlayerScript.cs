@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
+    public float movementSpeed = 1;
+    public float jumpheight = 10;
+    public float mousexspeed = 1;
+    Rigidbody rigid;
     // Start is called before the first frame update
     void Start()
     {
-        
+        rigid = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -16,7 +20,16 @@ public class PlayerScript : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
         float horizontalInput = Input.GetAxis("Horizontal");
 
-        transform.position += transform.forward * verticalInput;
-        transform.position += transform.right * horizontalInput;
+        float mouseXInput = Input.GetAxis("Mouse X");
+
+        transform.position += transform.forward * verticalInput * movementSpeed;
+        transform.position += transform.right * horizontalInput * movementSpeed;
+
+        transform.Rotate(0, mouseXInput * mousexspeed, 0);
+
+        if (Input.GetKeyDown(KeyCode.Space)) 
+        {
+            rigid.AddForce(Vector3.up * jumpheight);
+        }
     }
 }
